@@ -1,0 +1,79 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace App_Console_LW01
+{
+    class Program
+    {
+        
+
+        static void Main(string[] args)
+        {
+            //Concatenation de string
+            String firstFriend = "Marcel";
+            String secondFriend = "Maria";
+            Console.WriteLine($"Hello {firstFriend} and {secondFriend}!");  //Reprise des valeurs de chaînes de caractères lors de l'affichage sur la console ;
+
+            //Suppression des espaces au début et en fin de string
+            String message = "        Hello world!        ";
+            Console.WriteLine(message+"................");
+            String messageTrimedStart = message.TrimStart();
+            Console.WriteLine(messageTrimedStart+"................");
+            String messageTrimedEnd = message.TrimEnd();
+            Console.WriteLine(messageTrimedEnd+"..............");
+
+            //Modifier une chaine
+            String sayhello = "Greetings from France";
+            Console.WriteLine(sayhello);
+            //Remplacement d'une chaîne de caractères par une autre ;
+            sayhello = sayhello.Replace("Greetings", "Goodafternoon");
+            Console.WriteLine(sayhello+" longureur : "+sayhello.Length);
+            //Passage de la chaine en majuscules ;
+            Console.WriteLine(sayhello.ToUpper());
+            //Passage de la chaîne en minuscules ;
+            Console.WriteLine(sayhello.ToLower());
+
+            //Recherche dans une chaîne de caractères
+            String greetings = "You say goodbye when I say hello!";
+            Console.WriteLine(greetings.Contains("goodbye"));
+            Console.WriteLine(greetings.Contains("talk"));
+            Console.WriteLine(greetings.StartsWith("You"));
+            Console.WriteLine(greetings.StartsWith("when"));
+            Console.WriteLine(greetings.EndsWith("hello!"));
+            Console.WriteLine(greetings.EndsWith("I"));
+
+            //Vérification du typage numérique : intéger ;
+            int max = int.MaxValue;
+            int min = int.MinValue;
+            Console.WriteLine(max);
+            Console.WriteLine(min);
+            int overflow = max + 3;
+            Console.WriteLine(overflow);
+
+            //Vérification du typage numérique : decimaux ;
+            decimal maxDcml = decimal.MaxValue;
+            decimal minDcml = decimal.MinValue;
+            Console.WriteLine(maxDcml);
+            Console.WriteLine(minDcml);
+            decimal a = 4.0M;
+            decimal b = 5.0M;
+            Console.WriteLine(a / b);
+
+            //Boucles et conditions : Somme des nombre de 1 à 20 divisibles par 3
+            double res = 0;
+            for (int k = 0; k <= 20; k++)
+            {
+                if (k % 3 == 0)
+                {
+                    res += k;
+                }
+            }
+            Console.WriteLine($"Resultat : {res}");
+
+            //Temps de pause pour apperçu des résultats
+            System.Threading.Thread.Sleep(5000);
+        }
+    }
+}

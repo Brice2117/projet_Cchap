@@ -70,10 +70,249 @@ namespace App_Console_LW01
                     res += k;
                 }
             }
-            Console.WriteLine($"Resultat : {res}");
+             Console.WriteLine($"Resultat : {res}\n\n");
+
+            ///////////////////////////////////////////////////////////////////////Test de Class/////////////////////////////////////////////////////////////////////////////
+
+            //Test de class : type ref
+            //Nouvelle instance ;
+            Console.WriteLine("////////////TEST CLASS////////////");
+            Person man = new Person();
+            Console.WriteLine("Nouvelle Instance de Person 'man' :\no Name : " + man.getName() +";\no Height : "+man.getHeight()+";\no Weight : "+man.getWeight()+";");
+            //Remplissage de l'instance;
+            man.setName("Max");
+            man.setHeight(1.70);
+            man.setWeight(75);
+            Console.WriteLine("Instance n°1 de Person 'man' :\no Name : " + man.getName() + ";\no Height : " + man.getHeight() + ";\no Weight : " + man.getWeight() + ";");
+            //Création d'une nouvelle variable de l'instance;
+            Person woman = man;
+            woman.setName("Charline");
+            woman.setHeight(1.80);
+            woman.setWeight(70);
+            //Les modifications faites sur l'une se répercutent sur l'autre;
+            Console.WriteLine("Instance n°2 de Person 'woman' :\no Name : " + woman.getName() + ";\no Height : " + woman.getHeight() + ";\no Weight : " + woman.getWeight() + ";");
+            Console.WriteLine("Instance n°1 de Person 'man' :\no Name : " + man.getName() + ";\no Height : " + man.getHeight() + ";\no Weight : " + man.getWeight() + ";\n\n");
+
+            ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+            /////////////////////////////////////////////////////////////////////Test de Struct//////////////////////////////////////////////////////////////////////////////
+
+            //Test de struct : type valeur
+            //Nouvelle instance ;
+            Console.WriteLine("////////////////TEST STRUCT///////////////");
+            Animal pet = new Animal("Shadow", "Dog", 3, 0);
+            Console.WriteLine("Nouvelle Instance de Animal 'pet' :\no Name : " + pet.getName() + ";\no Species : " + pet.getSpecies() + ";\no Age : " + pet.getAge() + ";");
+            //Copie de l'instance ;
+            Animal savage = pet;
+            Console.WriteLine("Nouvelle Instance de Animal 'savage' :\no Name : " + savage.getName() + ";\no Species : " + savage.getSpecies() + ";\no Age : " + savage.getAge() + ";");
+            //Changement des champs ;
+            savage.setName("Lightning");
+            savage.setSpecies("Unicorn");
+            savage.setAge(7);
+            Console.WriteLine("Nouvelle Instance de Animal 'pet' :\no Name : " + pet.getName() + ";\no Species : " + pet.getSpecies() + ";\no Age : " + pet.getAge() + ";");
+            Console.WriteLine("Nouvelle Instance de Animal 'savage' :\no Name : " + savage.getName() + ";\no Species : " + savage.getSpecies() + ";\no Age : " + savage.getAge() + ";\n\n");
+
+            /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+            /////////////////////////////////////////////////////////////////////Test Interface//////////////////////////////////////////////////////////////////////////////
+
+            //Test interface : IMove
+            Console.WriteLine("///////////TEST INTERFACE//////////");
+            Console.WriteLine(pet.getName() + " has done " + pet.getSteps() + " steps. He has moved : " + pet.hasMoved()+" ;");
+            pet.moveArround(6);
+            Console.WriteLine(pet.getName() + " has done " + pet.getSteps() + " steps. He has moved : " + pet.hasMoved() + " ;");
+
+            /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+            /////////////////////////////////////////////////////////////////////Test Enum///////////////////////////////////////////////////////////////////////////////////
+
+            //Création des liste d'énumération ;
+            int xRider = (int)ApocalypseRiders.War;
+            int xMusketeers = (int)Musketeers.Athos;
+            int yRider = (int)ApocalypseRiders.Death;
+            int yMusketeers = (int)Musketeers.DArtagnan;
+            Console.WriteLine("Death possède l'ID : " + yRider + " de la liste des cavaliers commençant par War d'ID : "+xRider+".\nDArtagnan possède l'ID : " + yMusketeers + " de celle des mousquetaires commençant par Athos d'ID : "+xMusketeers+".");
+
+            //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+            /////////////////////////////////////////////////////////////////////Test 
 
             //Temps de pause pour apperçu des résultats
-            System.Threading.Thread.Sleep(5000);
+            System.Threading.Thread.Sleep(10000);
         }
     }
+
+
+    /**
+     * Nouvelle class : type par référence ;
+     */
+    public class Person
+    {
+        //Initialisation des Champs de la class Person ;
+        private String name;
+        private double height;
+        private double weight;
+
+        /**
+         * Constructeur neutre;
+         */
+        public Person()
+        {
+            this.name = "Nobody";
+            this.height = 1.50;
+            this.weight = 95;
+        }
+
+
+        /**
+         * Constructeur plein;
+         */
+        public Person(String name, double height, double weight)
+        {
+            this.name = name;
+            this.height = height;
+            this.weight = weight;
+        }
+
+        /**
+         * Getter et setter de la class;
+         */
+        public String getName()
+        {
+            return (this.name);
+        }
+
+        public double getHeight()
+        {
+            return (this.height);
+        }
+
+        public double getWeight()
+        {
+            return (this.weight);
+        }
+
+        public void setName(String newName)
+        {
+            this.name = newName;
+        }
+
+        public void setHeight(double newHeight)
+        {
+            this.height = newHeight;
+        }
+
+        public void setWeight(double newWeight)
+        {
+            this.weight = newWeight;
+        }
+    }
+
+        /**
+         * Classes énnumération;
+         */
+        enum Musketeers : int { Athos, Porthos, Aramis, DArtagnan };
+        enum ApocalypseRiders : long { War=2, Hunger, Conquest, Death };
+
+
+    /**
+     * Nouvelle class : type par référence ;
+     */
+    public struct Animal : IMove<Animal>
+    {
+        //Initialisation des Champs de la struct Animal ;
+        private String name;
+        private String species;
+        private int age;
+        private int steps;
+
+
+        /**
+         * Constructeur plein;
+         */
+        public Animal(String name, String species, int age, int steps)
+        {
+            this.name = name;
+            this.species = species;
+            this.age = age;
+            this.steps = steps;
+        }
+
+        /**
+         * Getter et setter de la class;
+         */
+        public String getName()
+        {
+            return (this.name);
+        }
+
+        public String getSpecies()
+        {
+            return (this.species);
+        }
+
+        public int getAge()
+        {
+            return (this.age);
+        }
+
+        public int getSteps()
+        {
+            return (this.steps);
+        }
+
+        public void setName(String newName)
+        {
+            this.name = newName;
+        }
+
+        public void setSpecies(String newSpecies)
+        {
+            this.species = newSpecies;
+        }
+
+        public void setAge(int newAge)
+        {
+            this.age = newAge;
+        }
+
+
+        /**
+         * Methodes de l'Interface : IMove
+         * Ajoute un nombre de pas à l'instance animal;
+         */
+        public void moveArround(int nbSteps)
+        {
+            this.steps += nbSteps;
+            Console.WriteLine(this.getName() + ", the " + this.getSpecies() + ", has moved of " + nbSteps + " steps.");
+        }
+
+
+        /**
+         * Renvoie un booleen sur l'état de mouvement de l'instance Animal;
+         */
+        public bool hasMoved()
+        {
+            if(this.steps!=0)
+            {
+                return (true);
+            }
+            else
+            {
+                return (false);
+            }
+        }
+    }
+
+    /**
+     * Interface implémentée par la struct Animal ;
+     * Permet de produire des héritages pour les structure qui ne le font pas naturellement ;
+     * Permet de donner des héritages multiples aux class ;
+     */
+    public interface IMove<T>
+    {
+        void moveArround(int nbSteps);
+        bool hasMoved();
+    }
 }
+

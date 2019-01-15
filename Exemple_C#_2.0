@@ -223,8 +223,63 @@ namespace App_Console_LW01
 
             ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+            //////////////////////////////////////////////////////////////////////////Tests StringBuilders/////////////////////////////////////////////////////////////////////
+
+            Console.WriteLine("\n\n///////////////////Tests StringBuilder///////////////////");
+            //Initialisation d'une chaine de caractère à entrer dans un StringBuilder;
+            String texte = "Cette chaîne est modifiable grace à son type StringBuilder!";
+            System.Text.StringBuilder sb = new System.Text.StringBuilder(texte);
+            //Parcours du StringBuilder pour en modifier le contenu;
+            for(int inc=0;inc<sb.Length;inc++)
+            {
+                if (inc!=0 && System.Char.IsLower(sb[inc])==true && sb[inc - 1].CompareTo(' ')==0)
+                {
+                    //Remplace toute les lettres de départ des mots par des majuscules;
+                    sb[inc]=System.Char.ToUpper(sb[inc]);
+                }
+            }
+            //Affiche le nouveau contenu du StringBuilder;
+            Console.WriteLine(sb.ToString());
+            //Modification d'un caractère ciblé;
+            sb[0] = 'F';
+            //Remplacement d'une chaine ciblée par une autre;
+            sb.Replace("Modifiable", "Mutable");
+            //Effacement d'un caractère dans le StringBuilder;
+            String textToRemove = "!";
+            sb.Remove(sb.ToString().IndexOf(textToRemove),textToRemove.Length);
+            //Insertion d'une nouvelle chaine dans le StringBuilder;
+            sb.Insert(sb.Length, "...");
+            //Affichage de la nouvelle chaine;
+            Console.WriteLine(sb.ToString());
+
+            ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+            //////////////////////////////////////////////////////////////////////////Tests Requetes LINQ//////////////////////////////////////////////////////////////////////
+
+            Console.WriteLine("\n\n/////////////////Tests LINQ Queries/////////////////////");
+            //Instanciation des expression de requtes;
+            LINQQueryExpressions instance = new LINQQueryExpressions();
+            //Application de la méthode de requetes;
+            Boolean done = instance.newQuery();
+
+            //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+            ////////////////////////////////////////////////////////////////////////Tests Instructions Lambda/////////////////////////////////////////////////////////////////
+
+            /*TestDelegate del = n => {
+                string s = n + " Fields.";
+                Console.WriteLine(s); };*/
+
+            //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
             //Temps de pause pour apperçu des résultats
-            System.Threading.Thread.Sleep(10000);
+            //System.Threading.Thread.Sleep(10000);
+
+            //Permet de garder la fenêtre du shell ouverte durant la phase de debugage;
+            Console.WriteLine(System.Environment.NewLine);
+            Console.WriteLine("--- Press any key to quit the window ---");
+            Console.ReadKey();
+
         }
 
         /*
@@ -232,7 +287,7 @@ namespace App_Console_LW01
          * Doivent retourner le même type de variable que la fonction représentée par le délégué;
          */
         public delegate double CalculMethode(int x, int y);
-
+        public delegate void TestDelegate(string s);
 
         /**
          * Fonction déléguée grâce à l'appel de variable précédent;
@@ -316,6 +371,41 @@ namespace App_Console_LW01
         public void setWeight(double newWeight)
         {
             this.weight = newWeight;
+        }
+    }
+
+
+    /**
+     * Classe de requetes de bases de données;
+     */
+    class LINQQueryExpressions
+    {
+        public Boolean newQuery()
+        {
+            int[] table = new int[] { 9,5,9,0,0,9,9,9,2 };
+
+            //Query syntax
+            IEnumerable<int> tableQuery_1 = from square in table
+                                          where square < 8
+                                          select square;
+
+            //Method syntax : utilisation d'expressions lambda;
+            IEnumerable<int> tableQuery_2 = table.Where(num => num % 5 == 0).OrderBy(n => n);
+
+            //Affichage de la première requete;
+            Console.WriteLine("\nPremière Requete");
+            foreach(int i in tableQuery_1)
+            {
+                Console.WriteLine(i + " ");
+            }
+
+            //Affichage de la deuxième requete;
+            Console.WriteLine("\nDeuxième Requete");
+            foreach(int i in tableQuery_2)
+            {
+                Console.WriteLine(i + " ");
+            }
+            return (true);
         }
     }
 

@@ -1,0 +1,131 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Microsoft.Office.Interop.Excel;
+
+using _Excel = Microsoft.Office.Interop.Excel;
+namespace Excel_Score
+{ 
+    class Program
+    {
+        private static int nbDeJoueurEnregistree = 0;
+
+        static string[,] tToExcel2d = new string[20, 2];
+
+        string path = "";
+        _Application excel = new _Excel.Application();
+        Workbook wb;
+        Worksheet ws;
+        public static void Main(string[] args)
+        {
+            //OpenFile();
+            Program excel = new Program(@"C:\Users\Utilisateur\Desktop\Score_Excel\Score_Excel\Tst.xlsx", 1);
+
+            excel.WriteToCell(0, 0, "Nom");//row,column,text    
+            excel.WriteToCell(0, 1, "Temps");//row,column,text
+
+
+            if(excel.ReadCell(0, 0)=="")
+            {
+                Console.WriteLine("BdD vide");
+            }
+            else
+            {
+                for(int i=1;i<20;i++)
+                {
+                    if(excel.ReadCell(i, 0) != "")
+                    {
+                        nbDeJoueurEnregistree++;    //compter le nombre des joueur enregistrer dans notre bd
+                    }
+                    Console.WriteLine("Il y a " + nbDeJoueurEnregistree + "joueur(s)");
+                }
+            }
+
+            // Ici on doit entre les valeurs de Unity
+
+            Console.WriteLine("Nom: ");
+            string nom = Console.ReadLine();
+
+            Console.WriteLine("temps");//il doit etre envoyer ou converti en double
+            double temps= Convert.ToDouble(Console.ReadLine());
+
+            //Valeurs a ajouter dans le bd: Nom et temps
+
+            if(nbDeJoueurEnregistree>0)//si il y a des joueurs dans la table
+            {
+                for(int i=0;i< nbDeJoueurEnregistree;i++)
+                {
+                    tToExcel2d[i, 0] = excel.ReadCell(i, 0);
+                    tToExcel2d[i, 1] = excel.ReadCell(i, 0);
+                }
+            }
+
+            tToExcel2d[nbDeJoueurEnregistree, 0] = nom ;
+            tToExcel2d[nbDeJoueurEnregistree, 1] = temps.ToString();
+
+            ////////////////BUBBLE SORT ALGORITHM////////////
+
+            double temp;
+            string temp2;
+
+            for (int j = 0; j <= 20 - 2; j++)
+            {
+                for (int i = 0; i <= 20 - 2; i++)
+                {
+                    if (Convert.ToDouble(tToExcel2d[i, 1]) > Convert.ToDouble(tToExcel2d[i+1,1]))
+                    {
+                        temp = Convert.ToDouble(tToExcel2d[i + 1, 0]);
+                        tToExcel2d[i + 1, 0]= tToExcel2d[i, 0];
+                        tToExcel2d[i, 0] = temp.ToString();
+
+                        temp2 = tToExcel2d[i + 1, 1];
+                        tToExcel2d[i + 1, 1] = tToExcel2d[i, 1];
+                        tToExcel2d[i, 1] = temp2;
+                    }
+                }
+            }
+
+            ////////////////////////////////////////////////
+
+            for (int j = 1; j <= nbDeJoueurEnregistree+1; j++)
+            {
+                excel.WriteToCell(j, 0, tToExcel2d[j-1, 0]);//row,column,text    
+                excel.WriteToCell(j, 1, tToExcel2d[j-1, 1]);//row,column,text
+            }
+
+            excel.Save();
+        }
+        public Program(string path, int sheet)
+        {
+            this.path = path;
+            wb = excel.Workbooks.Open(path);
+            ws = wb.Worksheets[sheet];
+
+        }
+
+        public string ReadCell(int i, int j)
+        {
+            i++;
+            j++;
+            if (ws.Cells[i, j].Value2 != null)
+            {
+                return ws.Cells[i, j].Value2;
+            }
+            else { return ""; }
+        }
+
+        public void WriteToCell(int i, int j, string s)
+        {
+            i++;
+            j++;
+            ws.Cells[i, j].Value2 = s;
+        }
+        public void Save()
+        {
+            wb.Save();
+            wb.Close();
+        }
+    }
+}
